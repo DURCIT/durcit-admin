@@ -1,3 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+body {
+    background-color: #FFF7ED; /* 부드러운 파스텔 톤 크림색 */
+  }
