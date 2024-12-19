@@ -7,12 +7,12 @@ const Sidebar = () => {
       <ul className="mt-4">
         <li className="p-4 hover:bg-[#FFE8D6] transition duration-300">
           <a href="/dashboard" className="font-semibold text-gray-700">
-            Dashboard
+            대시보드
           </a>
         </li>
         <li className="p-4 hover:bg-[#FFE8D6] transition duration-300">
           <a href="/users" className="font-semibold text-gray-700">
-            User Management
+            유저관리
           </a>
         </li>
       </ul>

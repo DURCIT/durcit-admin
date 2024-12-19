@@ -1,9 +1,13 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState({ token: null, isLoggedIn: false });
+    // 초기 상태를 설정할 때 localStorage에서 토큰 확인
+    const [auth, setAuth] = useState({
+        token: localStorage.getItem('adminToken'),
+        isLoggedIn: !!localStorage.getItem('adminToken'), // 토큰이 있으면 true
+    });
 
     const login = (token) => {
         setAuth({ token, isLoggedIn: true });
