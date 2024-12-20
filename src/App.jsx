@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import UserManagement from './pages/UserManagement';
+import PostManagement from './pages/PostManagement';
 
 function App() {
     return (
@@ -24,6 +25,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <UserManagement />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/posts"
+                        element={
+                            <ProtectedRoute>
+                                <PostManagement />
                             </ProtectedRoute>
                         }
                     />

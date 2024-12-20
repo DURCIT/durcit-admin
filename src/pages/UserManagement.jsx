@@ -92,7 +92,7 @@ const UserManagement = () => {
 
           {/* No Results Message */}
           {filteredUsers.length === 0 && (
-            <p className="text-center text-gray-500 mt-4">No users found</p>
+            <p className="text-center text-gray-500 mt-4">사용자를 찾을 수 없습니다.</p>
           )}
         </div>
       </div>

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUsers, suspendUser, deleteUser } from '../services/userService';
+import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -71,9 +73,16 @@ const UserManagement = () => {
   }
 
   return (
+    <div className="flex bg-[#FFF7ED] min-h-screen">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main Content */}
+      <div className="flex-1 ml-64">
+        {/* Header */}
+        <Header />
     <div className="p-8 bg-[#FFF7ED] min-h-screen">
       <h1 className="text-2xl font-bold text-[#FF9A8B] mb-4">User Management</h1>
-
       {/* 검색 입력 필드 */}
       <div className="mb-4">
         <input
@@ -130,9 +139,11 @@ const UserManagement = () => {
 
       {/* 검색 결과 없음 메시지 */}
       {filteredUsers.length === 0 && (
-        <p className="text-center text-gray-500 mt-4">No users found</p>
+        <p className="text-center text-gray-500 mt-4">사용자를 찾을 수 없습니다.</p>
       )}
     </div>
+  </div>
+</div>
   );
 };
 
