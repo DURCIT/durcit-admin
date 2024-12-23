@@ -1,31 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import { fetchPosts, deletePost, hidePost } from '../services/postService'; // API 호출 서비스
+import React, { useState } from 'react';
+import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
 
 const PostManagement = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태 추가
+  // 목업 데이터
+  const [posts, setPosts] = useState([
+    {
+      id: 1,
+      title: 'Post Title 1',
+      content: 'This is the content of post 1. It includes some detailed information.',
+      author: 'User1',
+      date: '2024-01-01',
+      status: 'active',
+    },
+    {
+      id: 2,
+      title: 'Post Title 2',
+      content: 'This is the content of post 2. It is a bit shorter.',
+      author: 'User2',
+      date: '2024-01-02',
+      status: 'active',
+    },
+    {
+      id: 3,
+      title: 'Post Title 3',
+      content: 'This post has been hidden by the admin.',
+      author: 'User3',
+      date: '2024-01-03',
+      status: 'hidden',
+    },
+  ]);
 
-  // 게시물 목록 로드
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const data = await fetchPosts(); // 게시물 목록 가져오기
-        setPosts(data);
-        setLoading(false);
-      } catch (err) {
-        setError('게시물을 가져오는 데 실패했습니다.');
-        console.error('Failed to fetch posts:', err);
-      }
-    };
-    loadPosts();
-  }, []);
+  const [searchTerm, setSearchTerm] = useState('');
 
   // 게시물 삭제
-  const handleDelete = async (postId) => {
+  const handleDelete = (postId) => {
     try {
-      await deletePost(postId);
       setPosts(posts.filter(post => post.id !== postId));
     } catch (err) {
       setError('게시물을 삭제하는 데 실패했습니다.');
@@ -34,9 +44,8 @@ const PostManagement = () => {
   };
 
   // 게시물 숨기기
-  const handleHide = async (postId) => {
+  const handleHide = (postId) => {
     try {
-      await hidePost(postId);
       setPosts(posts.map(post => (post.id === postId ? { ...post, status: 'hidden' } : post)));
     } catch (err) {
       setError('게시물을 숨기는 데 실패했습니다.');
@@ -51,39 +60,29 @@ const PostManagement = () => {
       post.author.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-[#FFF7ED]">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#FF9A8B] mx-auto"></div>
-          <p className="text-[#D9779B] font-semibold mt-4">게시물을 로드 중...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-[#FFF7ED]">
-        <p className="text-red-500 font-semibold">{error}</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="p-8 bg-[#FFF7ED] min-h-screen">
-      <h1 className="text-2xl font-bold text-[#FF9A8B] mb-4">Post Management</h1>
+    <div className="flex bg-[#FFF7ED] min-h-screen">
+      {/* Sidebar */}
+      <Sidebar />
 
-      {/* 검색 입력 필드 */}
-      <div className="mb-4">
+      {/* Main Content */}
+      <div className="flex-1 ml-64">
+        {/* Header */}
+        <Header />
+
+    <div className="p-8 mt-16">
+    <h1 className="text-2xl font-bold text-[#FF9A8B] mb-4">게시물 관리</h1>
+
+    {/* 검색 입력 필드 */}
+    <div className="mb-4">
         <input
           type="text"
           placeholder="Search by title or author"
-          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF9A8D4]"
+          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF9A8B]"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)} // 검색어 상태 업데이트
         />
-      </div>
+    </div>
 
       <table className="table-auto w-full bg-white rounded-lg shadow-lg">
         <thead>
@@ -117,23 +116,27 @@ const PostManagement = () => {
                     className="bg-[#FFE8D6] text-[#F98472] px-4 py-2 rounded-full mr-2 hover:bg-[#FFD3BA] hover:text-[#F55C47] transition duration-300"
                     onClick={() => handleHide(post.id)}
                   >
-                    Hide
+                    숨기기
                   </button>
                 )}
                 <button
                   className="bg-[#FADADD] text-[#D9779B] px-4 py-2 rounded-full hover:bg-[#F9A8D4] hover:text-[#C05691] transition duration-300"
                   onClick={() => handleDelete(post.id)}
                 >
-                  Delete
+                  게시물삭제
                 </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      {filteredPosts.length === 0 && (
+
+      {/* 게시물 없음 메시지 */}
+      {posts.length === 0 && (
         <p className="text-center text-gray-500 mt-4">게시물이 없습니다</p>
       )}
+    </div>
+    </div>
     </div>
   );
 };

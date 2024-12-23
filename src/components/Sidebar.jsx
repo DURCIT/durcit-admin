@@ -20,6 +20,11 @@ const Sidebar = () => {
             게시물관리
           </a>
         </li>
+        <li className="p-4 hover:bg-[#FFE8D6] transition duration-300">
+          <a href="/delete_posts" className="font-semibold text-gray-700">
+            게시물복원
+          </a>
+        </li>
       </ul>
     </aside>
   );
